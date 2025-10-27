@@ -5,6 +5,3 @@ python-dateutil
 gspread==5.11.3
 oauth2client==4.1.3
 Flask==2.3.3
-
-
-
