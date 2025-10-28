@@ -1,12 +1,13 @@
 import datetime
 import json
 import os
-import gspread
 import re
 import asyncio
-from oauth2client.service_account import ServiceAccountCredentials
+import gspread
+from google.oauth2.service_account import Credentials
+from oauth2client.service_account import ServiceAccountCredentials  # for local use
 from dateutil import parser as date_parser  
-from telegram import Credentials, Update
+from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 # --- Google Sheet Setup ---
