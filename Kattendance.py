@@ -1,16 +1,25 @@
 import datetime
+import json
+import os
 import gspread
 import re
 import asyncio
 from oauth2client.service_account import ServiceAccountCredentials
 from dateutil import parser as date_parser  
-from telegram import Update
+from telegram import Credentials, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 # --- Google Sheet Setup ---
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+scope = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
+if os.getenv("GOOGLE_CREDENTIALS"):  # Running on Render
+    creds_dict = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
+    creds = Credentials.from_service_account_info(creds_dict, scopes=scope)
+else:  # Running locally
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+
 client = gspread.authorize(creds)
+
 
 def get_attendance_sheet():
     workbook = client.open("PG-WF attendance")
